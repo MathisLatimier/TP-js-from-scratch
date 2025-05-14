@@ -158,19 +158,28 @@ function loadResult() {
         addImg(app, "https://media1.tenor.com/m/pZkO3VLAuaYAAAAC/o-zi-frumoasa.gif", "You Win");
         
     }
-    if (score == 0) {
+    else if (score == 0) {
         const h2 = document.createElement("h2");
         h2.innerText = "You are a loser !";
         h2.classList.add("looser");
         app.appendChild(h2);
         addImg(app, "https://media1.tenor.com/m/w0dZ4Eltk7IAAAAC/vuknok.gif", "You are a loser !");
     }
-    if (score == 1) {
+    else if (score == 1) {
         const h2 = document.createElement("h2");
         h2.innerText = "1 c'est mieux que 0 !";
         h2.classList.add("looser");
         app.appendChild(h2);
         addImg(app, "https://media1.tenor.com/m/XwW2gq51WX0AAAAd/cat.gif", "You are a loser !");
+    }
+
+    else {
+        const h2 = document.createElement("h2");
+        h2.innerText = "Mouais pas ouf...";
+        h2.classList.add("looser");
+        app.appendChild(h2);
+        addImg(app, "https://media1.tenor.com/m/IDUwYsIZXgUAAAAd/mouais-hum.gif", "Mouais");
+        
     }
     
     const p = document.createElement("p");
