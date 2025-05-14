@@ -4,10 +4,31 @@ console.log("Hello, World!");
 const app = document.getElementById("app");
 const statut = "home";
 const questions = [
-    new Question("What is the capital of France?", ["Paris", "London", "Berlin", "Madrid"], 0),
-    new Question("What is the capital of Germany?", ["Paris", "London", "Berlin", "Madrid"], 2),
-    new Question("What is the capital of Spain?", ["Paris", "London", "Berlin", "Madrid"], 3),
-    new Question("What is the capital of Italy?", ["Paris", "Rome", "Berlin", "Madrid"], 1),
+    new Question(
+        "Quel mot-clé est utilisé pour déclarer une variable constante ?",
+        ["var", "let", "const", "define"],
+        2
+    ),
+    new Question(
+        "Quelle est la sortie de 'typeof null' en JavaScript ?",
+        ["null", "object", "undefined", "boolean"],
+        1
+    ),
+    new Question(
+        "Quelle méthode permet de convertir une chaîne en entier ?",
+        ["parseInt()", "toString()", "JSON.parse()", "Math.floor()"],
+        0
+    ),
+    new Question(
+        "Quelle est la valeur de 'NaN === NaN' ?",
+        ["true", "false", "undefined", "error"],
+        1
+    ),
+    new Question(
+        "Comment déclare-t-on une fonction fléchée ?",
+        ["function => ()", "() => {}", "=> function() {}", "() -> {}"],
+        1
+    )
 ];
 let currentQuestion = 0;
 
@@ -123,6 +144,7 @@ function loadPreviousQuestion() {
 
 function loadResult() {
     app.innerHTML = "";
+    app.classList.value = "";
     app.classList.add("result");
     const score = calculResult();
     const h1 = document.createElement("h1");
@@ -131,22 +153,44 @@ function loadResult() {
     if (score == questions.length) {
         const h2 = document.createElement("h2");
         h2.innerText = "Congratulations ! You are a genius !";
-        h2.classList.add("success");
+        h2.classList.add("genius");
         app.appendChild(h2);
+        addImg(app, "https://media1.tenor.com/m/pZkO3VLAuaYAAAAC/o-zi-frumoasa.gif", "You Win");
+        
     }
     if (score == 0) {
         const h2 = document.createElement("h2");
         h2.innerText = "You are a loser !";
-        h2.classList.add("error");
+        h2.classList.add("looser");
         app.appendChild(h2);
-        const img = document.createElement("img");
-        img.src = "https://media1.tenor.com/m/w0dZ4Eltk7IAAAAC/vuknok.gif";
-        img.alt = "You are a loser !";
-        app.appendChild(img);
+        addImg(app, "https://media1.tenor.com/m/w0dZ4Eltk7IAAAAC/vuknok.gif", "You are a loser !");
     }
+    if (score == 1) {
+        const h2 = document.createElement("h2");
+        h2.innerText = "1 c'est mieux que 0 !";
+        h2.classList.add("looser");
+        app.appendChild(h2);
+        addImg(app, "https://media1.tenor.com/m/XwW2gq51WX0AAAAd/cat.gif", "You are a loser !");
+    }
+    
     const p = document.createElement("p");
     p.innerText = `You scored ${score} out of ${questions.length}`;
     app.appendChild(p);
+    const ul = document.createElement("ul");
+    questions.forEach((question, index) => {
+        const li = document.createElement("li");
+        li.innerText = question.question;
+        const answer = localStorage.getItem(`answer-${index}`);
+        if (answer == question.answer) {
+            li.classList.add("success");
+            li.innerText += " : " + question.choices[question.answer];
+        } else {
+            li.classList.add("error");
+            li.innerText += " : " + question.choices[answer] + " (correct answer : " + question.choices[question.answer] + ")";
+        }
+        ul.appendChild(li);
+    });
+    app.appendChild(ul);
     const button = document.createElement("button");
     button.innerText = "Restart";
     button.addEventListener("click", () => {
@@ -155,6 +199,14 @@ function loadResult() {
         loadHome();
     });
     app.appendChild(button);
+}
+
+function addImg(element, src, alt) {
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = alt;
+    element.appendChild(img);
+
 }
 
 function calculResult() {
